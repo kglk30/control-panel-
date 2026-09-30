@@ -1,0 +1,4 @@
+bp ntdll!RtlDispatchException "k 50; g"
+bp KERNELBASE!RaiseException "k 50; g"
+g
+q

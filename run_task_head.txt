@@ -1,0 +1,113 @@
+
+>     async def run_task(
+          self,
+          raw_input: str,
+          target_path: Optional[str] = None,
+          on_progress: Optional[Callable] = None,
+      ) -> OrchestratorResult:
+          """Execute a complete task lifecycle.
+  
+          Args:
+              raw_input: Natural-language task description from the user.
+              target_path: Filesystem path to operate on.
+              on_progress: Optional progress callback.
+  
+          Returns:
+              OrchestratorResult with outcome, trace, and backend info.
+          """
+          if self._state != OrchestratorState.IDLE:
+              raise RuntimeError(
+                  f"Orchestrator is busy (state={self._state.value}). "
+                  "Only one task at a time in V0.1."
+              )
+  
+          task_id = new_id()
+          t_global = time.perf_counter()
+  
+          task_spec: Optional[TaskSpec] = None
+          plan: Optional[ExecutionPlan] = None
+          worker_results: list[WorkerResult] = []
+          backend_used = "rule_based"
+          device_used = "none"
+          items_processed = 0
+  
+          try:
+              # ── ANALYZING ─────────────────────────────────────────────
+              self._transition(OrchestratorState.ANALYZING, task_id=task_id)
+              self._check_timeout(t_global)
+  
+              task_spec = self._analyzer.analyze(raw_input)
+              task_spec.task_id = task_id
+  
+              # Capture start snapshot
+              start_snapshot = self._governor.snapshot()
+              collector = ExperienceCollector(
+                  task_id=task_id,
+                  raw_input=raw_input,
+                  category=task_spec.category,
+                  task_spec=task_spec.model_dump(mode="json"),
+                  plan={},
+                  template_id=None,
+              )
+              collector.set_start_snapshot(start_snapshot)
+  
+              # ── RETRIEVING ────────────────────────────────────────────
+              self._transition(OrchestratorState.RETRIEVING, task_id=task_id)
+              self._check_timeout(t_global)
+  
+              templates = await self._template_store.find_by_category(task_spec.category)
+              best_template = templates[0] if templates else None
+  
+              history = await self._experience_store.find_by_category(
+                  task_spec.category, limit=10
+              )
+  
+              # ── PLANNING ──────────────────────────────────────────────
+              self._transition(OrchestratorState.PLANNING, task_id=task_id)
+              self._check_timeout(t_global)
+  
+              constraints = self._governor.get_resource_constraints()
+              plan = self._planner.plan(
+                  task_spec=task_spec,
+                  constraints=constraints,
+                  template=best_template,
+                  target_path=target_path,
+              )
+              collector._plan = plan.model_dump(mode="json")
+              if best_template:
+                  collector._template_id = best_template.id
+                  collector._template_version = best_template.version
+  
+              # ── SPAWNING ──────────────────────────────────────────────
+              self._transition(OrchestratorState.SPAWNING, task_id=task_id)
+              self._check_timeout(t_global)
+  
+              # Resource gate
+              spawn_decision = self._governor.can_spawn()
+              if not spawn_decision.allowed:
+                  raise RuntimeError(f"Cannot spawn workers: {spawn_decision.reason}")
+  
+              # Safety check on target path
+              if target_path:
+                  from control_panel.safety.models import SafetyContext
+                  dummy_ctx = SafetyContext(
+                      worker_id="orchestrator",
+                      task_id=task_id,
+                      permission_mode="read_write",
+                      allowed_paths=[],
+                  )
+                  path_check = self._safety.validate_path(
+                      target_path, dummy_ctx, is_write=False
+                  )
+                  if not path_check.allowed:
+                      raise RuntimeError(f"Target path rejected: {path_check.reason}")
+  
+              workers = [self._worker_factory.create(spec) for spec in plan.workers]
+  
+              # ── EXECUTING ─────────────────────────────────────────────
+              self._transition(OrchestratorState.EXECUTING, task_id=task_id)
+              self._check_timeout(t_global)
+  
+              worker_results = self._worker_runtime.execute_sequential(
+                  workers, on_progress=on_progress
+

@@ -1,0 +1,208 @@
+
+************* Preparing the environment for Debugger Extensions Gallery repositories **************
+   ExtensionRepository : Implicit
+   UseExperimentalFeatureForNugetShare : true
+   AllowNugetExeUpdate : true
+   NonInteractiveNuget : true
+   AllowNugetMSCredentialProviderInstall : true
+   AllowParallelInitializationOfLocalRepositories : true
+
+   -- Configuring repositories
+      ----> Repository : LocalInstalled, Enabled: true
+      ----> Repository : UserExtensions, Enabled: true
+
+>>>>>>>>>>>>> Preparing the environment for Debugger Extensions Gallery repositories completed, duration 0.000 seconds
+
+************* Waiting for Debugger Extensions Gallery to Initialize **************
+
+>>>>>>>>>>>>> Waiting for Debugger Extensions Gallery to Initialize completed, duration 0.016 seconds
+   ----> Repository : UserExtensions, Enabled: true, Packages count: 0
+   ----> Repository : LocalInstalled, Enabled: true, Packages count: 45
+
+Microsoft (R) Windows Debugger Version 10.0.29617.1000 ARM64
+Copyright (c) Microsoft Corporation. All rights reserved.
+
+CommandLine: .venv_qnn245\Scripts\python.exe
+
+************* Path validation summary **************
+Response                         Time (ms)     Location
+Deferred                                       srv*
+Symbol search path is: srv*
+Executable search path is: 
+ModLoad: 00007ff7`c3d50000 00007ff7`c3d62000   C:\Users\DELL IN14 5441 X1P\Downloads\projects\control-panel\.venv_qnn245\Scripts\python.exe
+ModLoad: 00007ffe`0c2b0000 00007ffe`0c6e7000   ntdll.dll
+ModLoad: 00007ffe`09e90000 00007ffe`09ff9000   C:\Windows\System32\KERNEL32.DLL
+ModLoad: 00007ffe`078c0000 00007ffe`07f9a000   C:\Windows\System32\KERNELBASE.dll
+ModLoad: 00007ffe`0a1c0000 00007ffe`0a43c000   C:\Windows\System32\user32.dll
+ModLoad: 00007ffe`07850000 00007ffe`078b1000   C:\Windows\System32\win32u.dll
+ModLoad: 00007ffe`0a000000 00007ffe`0a065000   C:\Windows\System32\GDI32.dll
+ModLoad: 00007ffe`08330000 00007ffe`08513000   C:\Windows\System32\gdi32full.dll
+ModLoad: 00007ffe`081d0000 00007ffe`08329000   C:\Windows\System32\msvcp_win.dll
+ModLoad: 00007ffe`07fa0000 00007ffe`081c9000   C:\Windows\System32\ucrtbase.dll
+(78a8.56a8): Break instruction exception - code 80000003 (first chance)
+ntdll!LdrpDoDebuggerBreak+0x34:
+00007ffe`0c40d734 d43e0000 brk         #0xF000
+0:000> u python+0x1000 L30
+*** WARNING: Unable to verify timestamp for C:\Users\DELL IN14 5441 X1P\Downloads\projects\control-panel\.venv_qnn245\Scripts\python.exe
+python+0x1000:
+00007ff7`c3d51000 a9bf7bfd stp         fp,lr,[sp,#-0x10]!
+00007ff7`c3d51004 910003fd mov         fp,sp
+00007ff7`c3d51008 94001273 bl          python+0x59d4 (00007ff7`c3d559d4)
+00007ff7`c3d5100c d4200020 brk         #1
+00007ff7`c3d51010 a9bc53f3 stp         x19,x20,[sp,#-0x40]!
+00007ff7`c3d51014 a9015bf5 stp         x21,x22,[sp,#0x10]
+00007ff7`c3d51018 f90013f7 str         x23,[sp,#0x20]
+00007ff7`c3d5101c a902fbfd stp         fp,lr,[sp,#0x28]
+00007ff7`c3d51020 9100a3fd add         fp,sp,#0x28
+00007ff7`c3d51024 aa0303f4 mov         x20,x3
+00007ff7`c3d51028 f100445f cmp         x2,#0x11
+00007ff7`c3d5102c aa0003f3 mov         x19,x0
+00007ff7`c3d51030 540001c2 bhs         python+0x1068 (00007ff7`c3d51068)
+00007ff7`c3d51034 90000048 adrp        x8,python+0x9000 (00007ff7`c3d59000)
+00007ff7`c3d51038 f9472908 ldr         x8,[x8,#0xE50]
+00007ff7`c3d5103c d63f0100 blr         x8
+00007ff7`c3d51040 90000044 adrp        x4,python+0x9000 (00007ff7`c3d59000)
+00007ff7`c3d51044 2a1f03e1 mov         w1,wzr
+00007ff7`c3d51048 aa1303e2 mov         x2,x19
+00007ff7`c3d5104c f9474084 ldr         x4,[x4,#0xE80]
+00007ff7`c3d51050 aa1403e3 mov         x3,x20
+00007ff7`c3d51054 a942fbfd ldp         fp,lr,[sp,#0x28]
+00007ff7`c3d51058 f94013f7 ldr         x23,[sp,#0x20]
+00007ff7`c3d5105c a9415bf5 ldp         x21,x22,[sp,#0x10]
+00007ff7`c3d51060 a8c453f3 ldp         x19,x20,[sp],#0x40
+00007ff7`c3d51064 d61f0080 br          x4
+00007ff7`c3d51068 aa0103f7 mov         x23,x1
+00007ff7`c3d5106c aa0203e0 mov         x0,x2
+00007ff7`c3d51070 aa1403e1 mov         x1,x20
+00007ff7`c3d51074 aa0203f5 mov         x21,x2
+00007ff7`c3d51078 940006c3 bl          python+0x2b84 (00007ff7`c3d52b84)
+00007ff7`c3d5107c aa0003f6 mov         x22,x0
+00007ff7`c3d51080 b4000120 cbz         x0,python+0x10a4 (00007ff7`c3d510a4)
+00007ff7`c3d51084 eb17029f cmp         x20,x23
+00007ff7`c3d51088 aa1603e0 mov         x0,x22
+00007ff7`c3d5108c aa1303e1 mov         x1,x19
+00007ff7`c3d51090 9a973282 csello      x2,x20,x23
+00007ff7`c3d51094 94001a0d bl          python+0x78c8 (00007ff7`c3d578c8)
+00007ff7`c3d51098 aa1303e0 mov         x0,x19
+00007ff7`c3d5109c aa1503e1 mov         x1,x21
+00007ff7`c3d510a0 94000584 bl          python+0x26b0 (00007ff7`c3d526b0)
+00007ff7`c3d510a4 aa1603e0 mov         x0,x22
+00007ff7`c3d510a8 a942fbfd ldp         fp,lr,[sp,#0x28]
+00007ff7`c3d510ac f94013f7 ldr         x23,[sp,#0x20]
+00007ff7`c3d510b0 a9415bf5 ldp         x21,x22,[sp,#0x10]
+00007ff7`c3d510b4 a8c453f3 ldp         x19,x20,[sp],#0x40
+00007ff7`c3d510b8 d65f03c0 ret
+00007ff7`c3d510bc f81e0ff3 str         x19,[sp,#-0x20]!
+0:000> u python+0x6d90-30 L30
+python+0x6d60:
+00007ff7`c3d56d60 aa1303e0 mov         x0,x19
+00007ff7`c3d56d64 d63f0100 blr         x8
+00007ff7`c3d56d68 b90193ff str         wzr,[sp,#0x190]
+00007ff7`c3d56d6c f0000008 adrp        x8,python+0x9000 (00007ff7`c3d59000)
+00007ff7`c3d56d70 910643e1 add         x1,sp,#0x190
+00007ff7`c3d56d74 f9470108 ldr         x8,[x8,#0xE00]
+00007ff7`c3d56d78 aa1303e0 mov         x0,x19
+00007ff7`c3d56d7c d63f0100 blr         x8
+00007ff7`c3d56d80 940000c5 bl          python+0x7094 (00007ff7`c3d57094)
+00007ff7`c3d56d84 350004c1 cbnz        w1,python+0x6e1c (00007ff7`c3d56e1c)
+00007ff7`c3d56d88 b94193e0 ldr         w0,[sp,#0x190]
+00007ff7`c3d56d8c 9400045a bl          python+0x7ef4 (00007ff7`c3d57ef4)
+00007ff7`c3d56d90 d4200020 brk         #1
+00007ff7`c3d56d94 5289e968 mov         w8,#0x4F4B
+00007ff7`c3d56d98 72aa6be8 movk        w8,#0x535F,lsl #0x10
+00007ff7`c3d56d9c 6b08001f cmp         w0,w8
+00007ff7`c3d56da0 1a8003e0 cseleq      w0,wzr,w0
+00007ff7`c3d56da4 9400043f bl          python+0x7ea0 (00007ff7`c3d57ea0)
+00007ff7`c3d56da8 d4200020 brk         #1
+00007ff7`c3d56dac f94023e8 ldr         x8,[sp,#0x40]
+00007ff7`c3d56db0 a942d7fc ldp         x28,x21,[sp,#0x28]
+00007ff7`c3d56db4 f9400bf4 ldr         x20,[sp,#0x10]
+00007ff7`c3d56db8 b9403ff3 ldr         w19,[sp,#0x3C]
+00007ff7`c3d56dbc f94013f6 ldr         x22,[sp,#0x20]
+00007ff7`c3d56dc0 f104151f cmp         x8,#0x105
+00007ff7`c3d56dc4 b9401ff8 ldr         w24,[sp,#0x1C]
+00007ff7`c3d56dc8 540000c3 blo         python+0x6de0 (00007ff7`c3d56de0)
+00007ff7`c3d56dcc f94023e1 ldr         x1,[sp,#0x40]
+00007ff7`c3d56dd0 aa1403e0 mov         x0,x20
+00007ff7`c3d56dd4 97ffedba bl          python+0x24bc (00007ff7`c3d524bc)
+00007ff7`c3d56dd8 f104101f cmp         x0,#0x104
+00007ff7`c3d56ddc 54000148 bhi         python+0x6e04 (00007ff7`c3d56e04)
+00007ff7`c3d56de0 f94023e1 ldr         x1,[sp,#0x40]
+00007ff7`c3d56de4 aa1403e0 mov         x0,x20
+00007ff7`c3d56de8 97ffeda7 bl          python+0x2484 (00007ff7`c3d52484)
+00007ff7`c3d56dec b5000200 cbnz        x0,python+0x6e2c (00007ff7`c3d56e2c)
+00007ff7`c3d56df0 a942d7fc ldp         x28,x21,[sp,#0x28]
+00007ff7`c3d56df4 f9400bf4 ldr         x20,[sp,#0x10]
+00007ff7`c3d56df8 b9403ff3 ldr         w19,[sp,#0x3C]
+00007ff7`c3d56dfc f94013f6 ldr         x22,[sp,#0x20]
+00007ff7`c3d56e00 b9401ff8 ldr         w24,[sp,#0x1C]
+00007ff7`c3d56e04 f94023f9 ldr         x25,[sp,#0x40]
+00007ff7`c3d56e08 17fffb97 b           python+0x5c64 (00007ff7`c3d55c64)
+00007ff7`c3d56e0c f0000000 adrp        x0,python+0x9000 (00007ff7`c3d59000)
+00007ff7`c3d56e10 9118c800 add         x0,x0,#0x632
+00007ff7`c3d56e14 528006a1 mov         w1,#0x35
+00007ff7`c3d56e18 17fffb59 b           python+0x5b7c (00007ff7`c3d55b7c)
+00007ff7`c3d56e1c f0000000 adrp        x0,python+0x9000 (00007ff7`c3d59000)
+0:000> u python+0x7f00-30 L30
+python+0x7ed0:
+00007ff7`c3d57ed0 f9400fe1 ldr         x1,[sp,#0x18]
+00007ff7`c3d57ed4 aa1403e0 mov         x0,x20
+00007ff7`c3d57ed8 97ffff43 bl          python+0x7be4 (00007ff7`c3d57be4)
+00007ff7`c3d57edc aa1303e0 mov         x0,x19
+00007ff7`c3d57ee0 aa1403e1 mov         x1,x20
+00007ff7`c3d57ee4 97fffca8 bl          python+0x7184 (00007ff7`c3d57184)
+00007ff7`c3d57ee8 52800020 mov         w0,#1
+00007ff7`c3d57eec 94000002 bl          python+0x7ef4 (00007ff7`c3d57ef4)
+00007ff7`c3d57ef0 d4200020 brk         #1
+00007ff7`c3d57ef4 a9bf7bfd stp         fp,lr,[sp,#-0x10]!
+00007ff7`c3d57ef8 910003fd mov         fp,sp
+00007ff7`c3d57efc 97fff563 bl          python+0x5488 (00007ff7`c3d55488)
+00007ff7`c3d57f00 d4200020 brk         #1
+00007ff7`c3d57f04 a9be53f3 stp         x19,x20,[sp,#-0x20]!
+00007ff7`c3d57f08 a9017bfd stp         fp,lr,[sp,#0x10]
+00007ff7`c3d57f0c 910043fd add         fp,sp,#0x10
+00007ff7`c3d57f10 d10183ff sub         sp,sp,#0x60
+00007ff7`c3d57f14 52800528 mov         w8,#0x29
+00007ff7`c3d57f18 d0000009 adrp        x9,python+0x9000 (00007ff7`c3d59000)
+00007ff7`c3d57f1c 91130d29 add         x9,x9,#0x4C3
+00007ff7`c3d57f20 a900a3e9 stp         x9,x8,[sp,#8]
+00007ff7`c3d57f24 52800028 mov         w8,#1
+00007ff7`c3d57f28 2a0103f3 mov         w19,w1
+00007ff7`c3d57f2c a901a3ff stp         xzr,x8,[sp,#0x18]
+00007ff7`c3d57f30 f90017ff str         xzr,[sp,#0x28]
+00007ff7`c3d57f34 97fffc70 bl          python+0x70f4 (00007ff7`c3d570f4)
+00007ff7`c3d57f38 910023e8 add         x8,sp,#8
+00007ff7`c3d57f3c 9100c3e9 add         x9,sp,#0x30
+00007ff7`c3d57f40 a90307e0 stp         x0,x1,[sp,#0x30]
+00007ff7`c3d57f44 a93da7a8 stp         x8,x9,[fp,#-0x28]
+00007ff7`c3d57f48 d100b3a8 sub         x8,fp,#0x2C
+00007ff7`c3d57f4c 910063e0 add         x0,sp,#0x18
+00007ff7`c3d57f50 d100a3a1 sub         x1,fp,#0x28
+00007ff7`c3d57f54 b81d43b3 stur        w19,[fp,#-0x2C]
+00007ff7`c3d57f58 f81e83a8 stur        x8,[fp,#-0x18]
+00007ff7`c3d57f5c 97fff649 bl          python+0x5880 (00007ff7`c3d55880)
+00007ff7`c3d57f60 a941d3f3 ldp         x19,x20,[sp,#0x18]
+00007ff7`c3d57f64 52800022 mov         w2,#1
+00007ff7`c3d57f68 f94017e1 ldr         x1,[sp,#0x28]
+00007ff7`c3d57f6c aa1403e0 mov         x0,x20
+00007ff7`c3d57f70 97ffff1d bl          python+0x7be4 (00007ff7`c3d57be4)
+00007ff7`c3d57f74 aa1303e0 mov         x0,x19
+00007ff7`c3d57f78 aa1403e1 mov         x1,x20
+00007ff7`c3d57f7c 97fffc82 bl          python+0x7184 (00007ff7`c3d57184)
+00007ff7`c3d57f80 52800020 mov         w0,#1
+00007ff7`c3d57f84 97ffffdc bl          python+0x7ef4 (00007ff7`c3d57ef4)
+00007ff7`c3d57f88 d4200020 brk         #1
+00007ff7`c3d57f8c 00000000 ???
+0:000> q
+quit:
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\atlmfc.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\concurrency.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\cpp_rest.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\ObjectiveC.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\stl.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\Windows.Data.Json.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\Windows.Devices.Geolocation.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\Windows.Devices.Sensors.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\Windows.Media.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\windows.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\winrt.natvis'

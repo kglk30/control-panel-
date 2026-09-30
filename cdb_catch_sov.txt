@@ -1,0 +1,4 @@
+sxe -c ".exr -1; k 50; q" c00000fd
+sxe -c ".exr -1; k 50; q" sov
+g
+q

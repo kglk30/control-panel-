@@ -1,0 +1,4 @@
+bp kernel32!ExitProcess "r x0; k 50; q"
+bp kernel32!ExitProcessImplementation "r x0; k 50; q"
+g
+q

@@ -1,0 +1,69 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# Virtual environment
+.venv/
+
+# Tools / caches
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+
+# Local data & databases
+data/
+*.db
+
+# Large model artifacts (do not commit binary weights)
+models/
+_qnn_upload_tmp/
+_qnn_upload_tmp.zip
+*.onnx
+*.bin
+*.data
+
+# Scratch / temp work
+scratch/
+spike/
+
+# Debug / investigation artefacts generated during development
+cdb_*.txt
+disasm_out.txt
+dump_out.txt
+final_stack.txt
+no_sxe_out.txt
+sov_out.txt
+sov_real_stack.txt
+trace_python_out.txt
+exitprocess_out.txt
+exitprocess2_out.txt
+run_task_check.txt
+run_task_head.txt
+out.log
+error.log
+qnn_verbose.log
+
+# Throwaway root-level scripts used during development
+inspect_model_wrapper.py
+inspect_qnn_devices.py
+test_classifier.py
+test_ctypes_qnn.py
+test_e2e_organizer.py
+test_npu_inference.py
+test_qnn_init.py
+run_task_dump.py
+update_depgraph.py
+patch.py
+
+# C/C++ source files written during debugging
+main.c
+python.c
+qnn_backend_manager.cc
+
+# Compiled objects / dummy artifacts
+dummy_init.onnx

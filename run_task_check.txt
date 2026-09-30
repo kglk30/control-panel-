@@ -1,0 +1,203 @@
+
+>     async def run_task(
+          self,
+          raw_input: str,
+          target_path: Optional[str] = None,
+          on_progress: Optional[Callable] = None,
+      ) -> OrchestratorResult:
+          """Execute a complete task lifecycle.
+  
+          Args:
+              raw_input: Natural-language task description from the user.
+              target_path: Filesystem path to operate on.
+              on_progress: Optional progress callback.
+  
+          Returns:
+              OrchestratorResult with outcome, trace, and backend info.
+          """
+          if self._state != OrchestratorState.IDLE:
+              raise RuntimeError(
+                  f"Orchestrator is busy (state={self._state.value}). "
+                  "Only one task at a time in V0.1."
+              )
+  
+          task_id = new_id()
+          t_global = time.perf_counter()
+  
+          task_spec: Optional[TaskSpec] = None
+          plan: Optional[ExecutionPlan] = None
+          worker_results: list[WorkerResult] = []
+          backend_used = "rule_based"
+          device_used = "none"
+          items_processed = 0
+  
+          try:
+              # ── ANALYZING ─────────────────────────────────────────────
+              self._transition(OrchestratorState.ANALYZING, task_id=task_id)
+              self._check_timeout(t_global)
+  
+              task_spec = self._analyzer.analyze(raw_input)
+              task_spec.task_id = task_id
+  
+              # Capture start snapshot
+              start_snapshot = self._governor.snapshot()
+              collector = ExperienceCollector(
+                  task_id=task_id,
+                  raw_input=raw_input,
+                  category=task_spec.category,
+                  task_spec=task_spec.model_dump(mode="json"),
+                  plan={},
+                  template_id=None,
+              )
+              collector.set_start_snapshot(start_snapshot)
+  
+              # ── RETRIEVING ────────────────────────────────────────────
+              self._transition(OrchestratorState.RETRIEVING, task_id=task_id)
+              self._check_timeout(t_global)
+  
+              templates = await self._template_store.find_by_category(task_spec.category)
+              best_template = templates[0] if templates else None
+  
+              history = await self._experience_store.find_by_category(
+                  task_spec.category, limit=10
+              )
+  
+              # ── STRATEGIZING ──────────────────────────────────────────
+              self._transition(OrchestratorState.STRATEGIZING, task_id=task_id)
+              self._check_timeout(t_global)
+  
+              # Construct DependencyGraph from best_template
+              graph = DependencyGraph()
+              if best_template and best_template.workflow:
+                  workers_config = best_template.workflow.get("workers", [])
+                  prev_role = None
+                  for wc in workers_config:
+                      role = wc.get("role", "worker")
+                      node = DepNode(
+                          operation_id=role,
+                          estimated_cost=OperationCost(estimated_runtime_ms=100)
+                      )
+                      graph.add_node(node)
+                      if prev_role:
+                          graph.add_edge(prev_role, role)
+                      prev_role = role
+              else:
+                  graph.add_node(DepNode(
+                      operation_id="general_executor",
+                      estimated_cost=OperationCost(estimated_runtime_ms=100)
+                  ))
+  
+              constraints = self._governor.get_resource_constraints()
+              strategy_planner = ExecutionStrategyPlanner(n_max=4)
+              strategy = strategy_planner.plan_strategy(graph, history)
+  
+              # ── PLANNING ──────────────────────────────────────────────
+              self._transition(OrchestratorState.PLANNING, task_id=task_id)
+              self._check_timeout(t_global)
+  
+              plan = self._planner.plan(
+                  task_spec=task_spec,
+                  constraints=constraints,
+                  template=best_template,
+                  target_path=target_path,
+                  strategy=strategy,
+              )
+              collector._plan = plan.model_dump(mode="json")
+              if best_template:
+                  collector._template_id = best_template.id
+                  collector._template_version = best_template.version
+  
+              # ── SPAWNING ──────────────────────────────────────────────
+              self._transition(OrchestratorState.SPAWNING, task_id=task_id)
+              self._check_timeout(t_global)
+  
+              # Resource gate
+              spawn_decision = self._governor.can_spawn()
+              if not spawn_decision.allowed:
+                  raise RuntimeError(f"Cannot spawn workers: {spawn_decision.reason}")
+  
+              # Safety check on target path
+              if target_path:
+                  from control_panel.safety.models import SafetyContext
+                  dummy_ctx = SafetyContext(
+                      worker_id="orchestrator",
+                      task_id=task_id,
+                      permission_mode="read_write",
+                      allowed_paths=[],
+                  )
+                  path_check = self._safety.validate_path(
+                      target_path, dummy_ctx, is_write=False
+                  )
+                  if not path_check.allowed:
+                      raise RuntimeError(f"Target path rejected: {path_check.reason}")
+  
+              workers = [self._worker_factory.create(spec) for spec in plan.workers]
+  
+              # ── EXECUTING ─────────────────────────────────────────────
+              self._transition(OrchestratorState.EXECUTING, task_id=task_id)
+              self._check_timeout(t_global)
+  
+              worker_results = self._worker_runtime.execute_sequential(
+                  workers, on_progress=on_progress
+              )
+  
+              # ── COLLECTING ────────────────────────────────────────────
+              self._transition(OrchestratorState.COLLECTING, task_id=task_id)
+  
+              # Determine what was processed
+              items_processed = self._count_items(worker_results)
+              items_failed = sum(1 for r in worker_results if not r.success)
+              overall_success = all(r.success for r in worker_results)
+  
+              # Collect traces and outcomes
+              for r in worker_results:
+                  if r.trace:
+                      collector.add_trace(r.trace)
+                  collector.add_worker_outcome(WorkerOutcome(
+                      worker_id=r.worker_id,
+                      role=r.role,
+                      success=r.success,
+                      retry_count=r.retry_count,
+                      runtime_ms=r.runtime_ms,
+                      error=r.error,
+                  ))
+  
+              end_snapshot = self._governor.snapshot()
+              collector.set_end_snapshot(end_snapshot)
+  
+              # Determine primary backend used
+              if worker_results:
+                  backend_used = start_snapshot.accelerators.get("npu") and \
+                      start_snapshot.accelerators["npu"].available and "snapdragon" or "local_cpu"
+                  # Use actual inference backend from the inference runtime
+                  backends = self._inference.available_backends()
+                  for b in backends:
+                      if b.available and b.name != "rule_based":
+                          backend_used = b.name
+                          device_used = b.device or "cpu"
+                          break
+  
+              experience = collector.build(
+                  success=overall_success,
+                  items_processed=items_processed,
+                  items_failed=items_failed,
+              )
+              experience.backend_used = backend_used
+              experience.device_used = device_used
+  
+              # ── COMPARING ─────────────────────────────────────────────
+              self._transition(OrchestratorState.COMPARING, task_id=task_id)
+  
+              strategy = self._comparator.compare(experience, history)
+              experience.strategy_decision = strategy
+  
+              # ── OPTIMIZING ────────────────────────────────────────────
+              self._transition(OrchestratorState.OPTIMIZING, task_id=task_id)
+  
+              # Apply strategy decision
+              if strategy.action == "UPDATE" and strategy.target_template and best_template:
+                  await self._template_store.update(
+                      best_template.id,
+                      {"workflow": best_template.workflow}
+                  )
+

@@ -1,0 +1,8 @@
+sxe 0xC00000FD
+sxe sov
+sxe sbo
+sxe av
+g
+.exr -1
+k 256
+q

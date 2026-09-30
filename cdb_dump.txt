@@ -1,0 +1,2 @@
+bp KERNEL32!ExitProcessImplementation ".dump /ma scratch/crash.dmp; q"
+g

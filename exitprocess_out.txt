@@ -1,0 +1,93 @@
+
+************* Preparing the environment for Debugger Extensions Gallery repositories **************
+   ExtensionRepository : Implicit
+   UseExperimentalFeatureForNugetShare : true
+   AllowNugetExeUpdate : true
+   NonInteractiveNuget : true
+   AllowNugetMSCredentialProviderInstall : true
+   AllowParallelInitializationOfLocalRepositories : true
+
+   -- Configuring repositories
+      ----> Repository : LocalInstalled, Enabled: true
+      ----> Repository : UserExtensions, Enabled: true
+
+>>>>>>>>>>>>> Preparing the environment for Debugger Extensions Gallery repositories completed, duration 0.000 seconds
+
+************* Waiting for Debugger Extensions Gallery to Initialize **************
+
+>>>>>>>>>>>>> Waiting for Debugger Extensions Gallery to Initialize completed, duration 0.032 seconds
+   ----> Repository : UserExtensions, Enabled: true, Packages count: 0
+   ----> Repository : LocalInstalled, Enabled: true, Packages count: 45
+
+Microsoft (R) Windows Debugger Version 10.0.29617.1000 ARM64
+Copyright (c) Microsoft Corporation. All rights reserved.
+
+CommandLine: .venv_qnn245\Scripts\python.exe test_qnn_init.py
+
+************* Path validation summary **************
+Response                         Time (ms)     Location
+Deferred                                       srv*
+Symbol search path is: srv*
+Executable search path is: 
+ModLoad: 00007ff7`c3d50000 00007ff7`c3d62000   C:\Users\DELL IN14 5441 X1P\Downloads\projects\control-panel\.venv_qnn245\Scripts\python.exe
+ModLoad: 00007ffe`0c2b0000 00007ffe`0c6e7000   ntdll.dll
+ModLoad: 00007ffe`09e90000 00007ffe`09ff9000   C:\Windows\System32\KERNEL32.DLL
+ModLoad: 00007ffe`078c0000 00007ffe`07f9a000   C:\Windows\System32\KERNELBASE.dll
+ModLoad: 00007ffe`0a1c0000 00007ffe`0a43c000   C:\Windows\System32\user32.dll
+ModLoad: 00007ffe`07850000 00007ffe`078b1000   C:\Windows\System32\win32u.dll
+ModLoad: 00007ffe`0a000000 00007ffe`0a065000   C:\Windows\System32\GDI32.dll
+ModLoad: 00007ffe`08330000 00007ffe`08513000   C:\Windows\System32\gdi32full.dll
+ModLoad: 00007ffe`081d0000 00007ffe`08329000   C:\Windows\System32\msvcp_win.dll
+ModLoad: 00007ffe`07fa0000 00007ffe`081c9000   C:\Windows\System32\ucrtbase.dll
+(f794.8c8c): Break instruction exception - code 80000003 (first chance)
+ntdll!LdrpDoDebuggerBreak+0x34:
+00007ffe`0c40d734 d43e0000 brk         #0xF000
+0:000> bp kernel32!ExitProcess "r x0; k 50; q"
+Couldn't resolve error at 'kernel32!ExitProcess "r x0; k 50; q"'
+Child-SP          RetAddr               Call Site
+000000e9`b733e8c0 00007ffe`0c3742c4     ntdll!LdrpDoDebuggerBreak+0x34
+000000e9`b733e8e0 00007ffe`0c376544     ntdll!LdrpInitializeProcess+0x3014
+000000e9`b733f970 00007ffe`0c370998     ntdll!LdrpInitialize+0x2a4
+000000e9`b733f9f0 00007ffe`0c36f9b8     ntdll!LdrpInitializeInternal+0xd0
+000000e9`b733fa40 00007ffe`0c3903d8     ntdll!LdrpInitialize+0x30
+000000e9`b733fa60 00000000`00000000     ntdll!LdrInitializeThunk+0x18
+                                            ^ Syntax error in 'bp kernel32!ExitProcess "r x0; k 50; q"'
+0:000> bp kernel32!ExitProcessImplementation "r x0; k 50; q"
+0:000> g
+ModLoad: 00007ffe`096a0000 00007ffe`096f7000   C:\Windows\System32\IMM32.DLL
+ModLoad: 00007ffd`dee10000 00007ffd`defc2000   C:\Program Files\Windhawk\Engine\1.7.3\arm64\windhawk.dll
+ModLoad: 00007ffe`087b0000 00007ffe`088fd000   C:\Windows\System32\ADVAPI32.dll
+ModLoad: 00007ffe`0c120000 00007ffe`0c268000   C:\Windows\System32\msvcrt.dll
+ModLoad: 00007ffe`0ba80000 00007ffe`0bba6000   C:\Windows\System32\sechost.dll
+ModLoad: 00007ffe`0bf10000 00007ffe`0c113000   C:\Windows\System32\RPCRT4.dll
+ModLoad: 00007ffe`07300000 00007ffe`07406000   C:\Windows\system32\apphelp.dll
+Python: 3.13.15 ARM64
+ORT Version: 1.24.4
+QNN EP Version: 2.1.1
+Embedded QNN SDK version: 2.45.41
+Registered QNN EP library from: C:\Users\DELL IN14 5441 X1P\Downloads\projects\control-panel\.venv_qnn245\Lib\site-packages\onnxruntime_qnn\onnxruntime_providers_qnn.dll
+
+--- ATTEMPTING QNN INITIALIZATION ---
+x0=00000000c00000fd
+Child-SP          RetAddr               Call Site
+000000e9`b733f7c0 00007ff7`c3d554bc     KERNEL32!ExitProcessImplementation
+*** WARNING: Unable to verify timestamp for C:\Users\DELL IN14 5441 X1P\Downloads\projects\control-panel\.venv_qnn245\Scripts\python.exe
+000000e9`b733f7c0 00007ff7`c3d554a4     python+0x54bc
+000000e9`b733f7d0 00007ff7`c3d57f00     python+0x54a4
+000000e9`b733f7f0 00007ff7`c3d56d90     python+0x7f00
+000000e9`b733f800 00007ff7`c3d5100c     python+0x6d90
+000000e9`b733fe10 00007ffe`09e98740     python+0x100c
+000000e9`b733fe20 00007ffe`0c385754     KERNEL32!BaseThreadInitThunk+0x40
+000000e9`b733fe30 00000000`00000000     ntdll!RtlUserThreadStart+0x44
+quit:
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\atlmfc.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\concurrency.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\cpp_rest.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\ObjectiveC.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\stl.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\Windows.Data.Json.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\Windows.Devices.Geolocation.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\Windows.Devices.Sensors.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\Windows.Media.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\windows.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\winrt.natvis'

@@ -1,0 +1,4 @@
+u python+0x1000 L30
+u python+0x6d90-30 L30
+u python+0x7f00-30 L30
+q

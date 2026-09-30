@@ -1,0 +1,98 @@
+
+************* Preparing the environment for Debugger Extensions Gallery repositories **************
+   ExtensionRepository : Implicit
+   UseExperimentalFeatureForNugetShare : true
+   AllowNugetExeUpdate : true
+   NonInteractiveNuget : true
+   AllowNugetMSCredentialProviderInstall : true
+   AllowParallelInitializationOfLocalRepositories : true
+
+   -- Configuring repositories
+      ----> Repository : LocalInstalled, Enabled: true
+      ----> Repository : UserExtensions, Enabled: true
+
+>>>>>>>>>>>>> Preparing the environment for Debugger Extensions Gallery repositories completed, duration 0.000 seconds
+
+************* Waiting for Debugger Extensions Gallery to Initialize **************
+
+>>>>>>>>>>>>> Waiting for Debugger Extensions Gallery to Initialize completed, duration 0.016 seconds
+   ----> Repository : UserExtensions, Enabled: true, Packages count: 0
+   ----> Repository : LocalInstalled, Enabled: true, Packages count: 45
+
+Microsoft (R) Windows Debugger Version 10.0.29617.1000 ARM64
+Copyright (c) Microsoft Corporation. All rights reserved.
+
+
+Loading Dump File [C:\Users\DELL IN14 5441 X1P\Downloads\projects\control-panel\scratch\crash.dmp]
+User Mini Dump File with Full Memory : Only application data is available
+
+Symbol search path is: srv*
+Executable search path is: 
+Windows 10 Version 26200 MP (8 procs) Free ARM 64-bit (AArch64)
+Product: WinNt, suite: SingleUserTS Personal
+Edition build lab: 26100.1.arm64fre.ge_release.240331-1435
+Debug session time: Mon Sep 21 16:58:45.000 2026 (UTC + 5:30)
+System Uptime: 21 days 22:41:24.745
+Process Uptime: 0 days 0:00:01.000
+.................
+This dump file has a breakpoint exception stored in it.
+The stored exception information can be accessed via .ecxr.
+For analysis of this file, run !analyze -v
+kernel32!ExitProcessImplementation:
+00007ffe`09e98480 d503237f pacibsp
+0:000> cdb: Reading initial command '~* k 256; q'
+
+.  0  Id: fdd8.d98 Suspend: 0 Teb: 00000029`27f9d000 Unfrozen
+Child-SP          RetAddr               Call Site
+00000029`27def1e0 00007ff7`c3d554bc     kernel32!ExitProcessImplementation
+*** WARNING: Unable to verify timestamp for python.exe
+00000029`27def1e0 00007ff7`c3d554a4     python+0x54bc
+00000029`27def1f0 00007ff7`c3d57f00     python+0x54a4
+00000029`27def210 00007ff7`c3d56d90     python+0x7f00
+00000029`27def220 00007ff7`c3d5100c     python+0x6d90
+00000029`27def830 00007ffe`09e98740     python+0x100c
+00000029`27def840 00007ffe`0c385754     kernel32!BaseThreadInitThunk+0x40
+00000029`27def850 00000000`00000000     ntdll!RtlUserThreadStart+0x44
+
+   1  Id: fdd8.ec14 Suspend: 0 Teb: 00000029`27f9f000 Unfrozen
+Child-SP          RetAddr               Call Site
+00000029`280ff9d0 00007ffe`0c360cf8     ntdll!NtWaitForWorkViaWorkerFactory+0x4
+00000029`280ff9d0 00007ffe`09e98740     ntdll!TppWorkerThread+0x568
+00000029`280ffcb0 00007ffe`0c385754     kernel32!BaseThreadInitThunk+0x40
+00000029`280ffcc0 00000000`00000000     ntdll!RtlUserThreadStart+0x44
+
+   2  Id: fdd8.c6bc Suspend: 0 Teb: 00000029`27fa1000 Unfrozen
+Child-SP          RetAddr               Call Site
+00000029`281ff9a0 00007ffe`0c360cf8     ntdll!NtWaitForWorkViaWorkerFactory+0x4
+00000029`281ff9a0 00007ffe`09e98740     ntdll!TppWorkerThread+0x568
+00000029`281ffc80 00007ffe`0c385754     kernel32!BaseThreadInitThunk+0x40
+00000029`281ffc90 00000000`00000000     ntdll!RtlUserThreadStart+0x44
+
+   3  Id: fdd8.a9bc Suspend: 0 Teb: 00000029`27fa3000 Unfrozen
+Child-SP          RetAddr               Call Site
+00000029`282ff9e0 00007ffe`0c360cf8     ntdll!NtWaitForWorkViaWorkerFactory+0x4
+00000029`282ff9e0 00007ffe`09e98740     ntdll!TppWorkerThread+0x568
+00000029`282ffcc0 00007ffe`0c385754     kernel32!BaseThreadInitThunk+0x40
+00000029`282ffcd0 00000000`00000000     ntdll!RtlUserThreadStart+0x44
+
+   4  Id: fdd8.5ccc Suspend: 0 Teb: 00000029`27fa5000 Unfrozen "WindhawkMainLoopThreadAttachExempt"
+Child-SP          RetAddr               Call Site
+00000029`283ffa10 00007ffe`079c565c     ntdll!NtWaitForMultipleObjects+0x4
+00000029`283ffa10 00007ffd`dee3171c     KERNELBASE!WaitForMultipleObjectsEx+0x10c
+00000029`283ffcf0 00007ffd`dee31bac     windhawk!GlobalHookSessionHandleNewProcesses+0x1864
+00000029`283ffdb0 00007ffd`dee31b48     windhawk!GlobalHookSessionHandleNewProcesses+0x1cf4
+00000029`283ffe00 00007ffe`09e98740     windhawk!GlobalHookSessionHandleNewProcesses+0x1c90
+00000029`283ffe20 00007ffe`0c385754     kernel32!BaseThreadInitThunk+0x40
+00000029`283ffe30 00000000`00000000     ntdll!RtlUserThreadStart+0x44
+quit:
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\atlmfc.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\concurrency.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\cpp_rest.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\ObjectiveC.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\stl.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\Windows.Data.Json.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\Windows.Devices.Geolocation.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\Windows.Devices.Sensors.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\Windows.Media.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\windows.natvis'
+NatVis script unloaded from 'C:\Program Files\WindowsApps\Microsoft.WinDbg_1.2606.22001.0_arm64__8wekyb3d8bbwe\arm64\Visualizers\winrt.natvis'
