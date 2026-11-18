@@ -122,7 +122,7 @@ class Display:
     def make_progress(self) -> Progress:
         """Create a Rich progress bar for task execution."""
         return Progress(
-            SpinnerColumn(),
+            SpinnerColumn("line"),
             TextColumn("[bold blue]{task.description}"),
             TimeElapsedColumn(),
             console=console,

@@ -190,27 +190,29 @@ async def _run_task(
     display: Display,
 ) -> "OrchestratorResult":
     from control_panel.orchestrator.core import Orchestrator
+    from control_panel.persistence.database import close_database
 
     orch = Orchestrator(dry_run=dry_run)
-    await orch.initialize()
-
-    with display.make_progress() as progress:
-        prog_task = progress.add_task("Initializing...", total=None)
-        callback = display.progress_handler(progress, prog_task)
-
-        result = await orch.run_task(
-            raw_input=task,
-            target_path=path,
-            on_progress=callback,
-        )
-
-    return result
+    try:
+        await orch.initialize()
+        with display.make_progress() as progress:
+            prog_task = progress.add_task("Initializing...", total=None)
+            callback = display.progress_handler(progress, prog_task)
+            return await orch.run_task(
+                raw_input=task,
+                target_path=path,
+                on_progress=callback,
+            )
+    finally:
+        await close_database()
 
 
 async def _get_history(limit: int) -> list:
     from control_panel.experience.store import ExperienceStore
-    from control_panel.persistence.database import get_database
+    from control_panel.persistence.database import close_database, get_database
 
-    db = await get_database()
-    store = ExperienceStore(db)
-    return await store.list_recent(limit=limit)
+    try:
+        db = await get_database()
+        return await ExperienceStore(db).list_recent(limit=limit)
+    finally:
+        await close_database()
