@@ -1,0 +1,28 @@
+[orchestrator]
+timeout_seconds = 300
+max_retries = 3
+
+[safety]
+max_ops_per_second = 10
+dry_run = false
+denylist = [
+    "C:\\Windows",
+    "C:\\Program Files",
+    "C:\\Program Files (x86)",
+    "C:\\ProgramData",
+    "C:\\Users\\Default",
+]
+
+[inference]
+preferred_backend = ""
+api_base_url = "https://api.openai.com/v1"
+api_model = "gpt-4o-mini"
+api_timeout_seconds = 30
+api_max_retries = 2
+probe_on_startup = true
+
+[resources]
+min_free_ram_mb = 512
+max_cpu_percent = 80.0
+min_free_disk_mb = 100
+safety_margin_mb = 512
