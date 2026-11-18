@@ -1,0 +1,67 @@
+# Model Registry — Control Panel V0.1
+# Models listed here are discovered at startup.
+# Actual model files must be downloaded separately.
+
+[[models]]
+model_id = "rule_based_v1"
+model_name = "Rule-Based Classifier"
+format = "none"
+runtime_type = "rule_based"
+quantization = ""
+file_path = ""
+
+[models.requirements]
+disk_size_mb = 0
+estimated_ram_mb = 0
+minimum_free_ram_mb = 0
+
+supported_tasks = ["analyze", "classify", "plan", "reason", "generate"]
+supported_backends = ["rule_based"]
+supported_devices = ["none"]
+context_length = 0
+structured_output_support = true
+source = "builtin"
+version = "1.0.0"
+
+[[models]]
+model_id = "phi3_mini_int4_cpu"
+model_name = "Phi-3 Mini 4K Instruct INT4 (CPU)"
+format = "onnx"
+runtime_type = "genai"
+quantization = "int4"
+file_path = "models/phi3-mini-int4/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4"
+
+supported_tasks = ["analyze", "plan", "reason", "generate"]
+supported_backends = ["local_cpu"]
+supported_devices = ["cpu"]
+context_length = 4096
+structured_output_support = false
+source = "huggingface"
+version = "3.8"
+
+[models.requirements]
+disk_size_mb = 2600
+estimated_ram_mb = 1000
+minimum_free_ram_mb = 512
+
+
+[[models]]
+model_id = "mobilenetv2_qnn_htp"
+model_name = "MobileNetV2 (QNN HTP Context Binary)"
+format = "onnx"
+runtime_type = "structured"
+quantization = "int8"
+file_path = "models/mobilenetv2/mobilenetv2_qnn_htp_extracted/job_jp2r4vnqg_optimized_onnx/model.onnx"
+
+supported_tasks = ["analyze", "classify", "plan", "reason", "generate"]
+supported_backends = ["snapdragon"]
+supported_devices = ["npu"]
+context_length = 0
+structured_output_support = true
+source = "qualcomm_ai_hub"
+version = "1.0.0"
+
+[models.requirements]
+disk_size_mb = 9
+estimated_ram_mb = 16
+minimum_free_ram_mb = 16
